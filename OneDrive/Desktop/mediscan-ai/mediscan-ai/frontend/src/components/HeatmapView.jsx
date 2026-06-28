@@ -1,23 +1,29 @@
 import React from 'react';
+
 function HeatmapView({ original, heatmap }) {
   if (!heatmap) return null;
   return (
-    <div style={styles.container}>
-      <div style={styles.box}>
-        <h3 style={styles.label}>Original X-Ray</h3>
-        <img src={original} alt="original" style={styles.img} />
+    <div className="glass-card heatmap-card">
+      <h2 className="card-title">🔬 AI Visual Analysis</h2>
+      <div className="heatmap-row">
+        <div className="heatmap-box">
+          <h3 className="heatmap-label">Original X-Ray</h3>
+          <img src={original} alt="original" className="heatmap-img" />
+        </div>
+        <div className="heatmap-box">
+          <h3 className="heatmap-label">AI Heatmap (Grad-CAM)</h3>
+          <img
+            src={`data:image/jpeg;base64,${heatmap}`}
+            alt="heatmap"
+            className="heatmap-img"
+          />
+        </div>
       </div>
-      <div style={styles.box}>
-        <h3 style={styles.label}>AI Heatmap (Grad-CAM)</h3>
-        <img src={`data:image/jpeg;base64,${heatmap}`} alt="heatmap" style={styles.img} />
-      </div>
+      <p className="heatmap-note">
+        🔴 Highlighted regions show where the AI focused during diagnosis.
+      </p>
     </div>
   );
 }
-const styles = {
-  container: { display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '1rem', flexWrap: 'wrap' },
-  box: { textAlign: 'center' },
-  label: { color: '#a78bfa', marginBottom: '0.5rem' },
-  img: { width: '200px', borderRadius: '8px', border: '2px solid #a78bfa' }
-};
+
 export default HeatmapView;
