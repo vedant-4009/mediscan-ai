@@ -2,26 +2,58 @@ import React, { useState } from 'react';
 import UploadCard from './components/UploadCard';
 import ResultCard from './components/ResultCard';
 import HeatmapView from './components/HeatmapView';
+import HistoryPanel from './components/HistoryPanel';
+
 function App() {
   const [result, setResult] = useState(null);
   const [originalImage, setOriginalImage] = useState(null);
+  const [history, setHistory] = useState([]);
+
   const handleResult = (data, imageUrl) => {
     setResult(data);
     setOriginalImage(imageUrl);
+    if (data) {
+      setHistory((prev) => [
+        { id: Date.now(), data, imageUrl },
+        ...prev,
+      ]);
+    }
   };
+
+  const loadFromHistory = (item) => {
+    setResult(item.data);
+    setOriginalImage(item.imageUrl);
+  };
+
   return (
-    <div style={styles.container}>
-      <h1 style={styles.header}>MediScan AI</h1>
-      <p style={styles.subtitle}>AI-Powered Medical X-Ray Diagnosis</p>
-      <UploadCard onResult={handleResult} />
-      <ResultCard result={result} />
-      <HeatmapView original={originalImage} heatmap={result && result.heatmap} />
+    <div className="app-bg">
+      <div className="app-container">
+        <header className="app-header">
+          <div className="logo-row">
+            <span className="logo-icon">🩺</span>
+            <h1>MediScan AI</h1>
+          </div>
+          <p className="subtitle">AI-Powered Medical X-Ray Diagnosis</p>
+        </header>
+
+        <div className="main-grid">
+          <div className="left-col">
+            <UploadCard onResult={handleResult} />
+            <ResultCard result={result} />
+            <HeatmapView original={originalImage} heatmap={result?.heatmap} />
+          </div>
+
+          <div className="right-col">
+            <HistoryPanel history={history} onSelect={loadFromHistory} />
+          </div>
+        </div>
+
+        <footer className="app-footer">
+          <p>⚠️ This tool is for educational purposes only. Always consult a certified radiologist.</p>
+        </footer>
+      </div>
     </div>
   );
 }
-const styles = {
-  container: { minHeight: '100vh', background: '#0f0f1a', padding: '2rem', fontFamily: 'Arial, sans-serif', maxWidth: '800px', margin: '0 auto' },
-  header: { color: '#a78bfa', textAlign: 'center', fontSize: '2.5rem', marginBottom: '0.5rem' },
-  subtitle: { color: '#94a3b8', textAlign: 'center', marginBottom: '2rem' }
-};
+
 export default App;
