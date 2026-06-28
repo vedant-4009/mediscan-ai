@@ -80,12 +80,12 @@ function UploadCard({ onResult }) {
 
   return (
     <div className="glass-card upload-card">
-      <h2 className="card-title">📤 Upload X-Ray Image</h2>
+      <h2 className="card-title">Upload X-Ray Image</h2>
 
       {!showCamera ? (
-        <>
+        <div>
           <div
-            className={`dropzone ${dragActive ? 'drag-active' : ''}`}
+            className={dragActive ? "dropzone drag-active" : "dropzone"}
             onDragEnter={handleDrag}
             onDragOver={handleDrag}
             onDragLeave={handleDrag}
@@ -96,8 +96,8 @@ function UploadCard({ onResult }) {
               <img src={preview} alt="preview" className="preview-img" />
             ) : (
               <div className="dropzone-placeholder">
-                <span className="dropzone-icon">🩻</span>
-                <p>Drag & drop X-ray here</p>
+                <span className="dropzone-icon">X</span>
+                <p>Drag and drop X-ray here</p>
                 <p className="dropzone-sub">or click to browse</p>
               </div>
             )}
@@ -112,14 +112,32 @@ function UploadCard({ onResult }) {
 
           <div className="action-row">
             <button className="btn-secondary" onClick={openCamera}>
-              📷 Use Camera
+              Use Camera
             </button>
           </div>
-        </>
+        </div>
       ) : (
         <div className="camera-box">
           <video ref={videoRef} autoPlay playsInline className="camera-video" />
           <div className="action-row">
             <button className="btn-primary" onClick={captureFromCamera}>
-              📸 Capture
+              Capture
             </button>
+            <button className="btn-secondary" onClick={closeCamera}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {loading && (
+        <div className="progress-wrap">
+          <div className="progress-bar-indeterminate"></div>
+          <p className="loading-text">Analyzing X-ray...</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default UploadCard;
