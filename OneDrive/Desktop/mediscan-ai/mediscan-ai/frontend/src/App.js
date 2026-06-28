@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './App.css';
 import UploadCard from './components/UploadCard';
 import ResultCard from './components/ResultCard';
 import HeatmapView from './components/HeatmapView';
