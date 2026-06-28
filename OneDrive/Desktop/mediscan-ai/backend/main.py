@@ -5,18 +5,11 @@ from gradcam import generate_gradcam
 
 app = FastAPI(title="MediScan AI")
 
-origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://localhost",
-    "http://127.0.0.1",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
@@ -39,4 +32,3 @@ async def predict(file: UploadFile = File(...)):
             else "No signs of Pneumonia detected. Stay healthy!"
         )
     }
-    
