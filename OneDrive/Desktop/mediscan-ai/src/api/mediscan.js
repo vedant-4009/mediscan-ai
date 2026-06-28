@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://mediscan-ai-backend-xmyf.onrender.com';
+const API_URL = 'http://localhost:8000';
 
 export const predictImage = async (imageFile) => {
   const formData = new FormData();
