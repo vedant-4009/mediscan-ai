@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { predictImage } from '../api/mediscan';
+
 function UploadCard({ onResult }) {
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(null);
+
   const handleUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     setPreview(URL.createObjectURL(file));
     setLoading(true);
+    onResult(null, URL.createObjectURL(file));
     try {
       const result = await predictImage(file);
       onResult(result, URL.createObjectURL(file));
@@ -16,6 +19,7 @@ function UploadCard({ onResult }) {
     }
     setLoading(false);
   };
+
   return (
     <div style={styles.card}>
       <h2 style={styles.title}>Upload X-Ray Image</h2>
@@ -25,6 +29,7 @@ function UploadCard({ onResult }) {
     </div>
   );
 }
+
 const styles = {
   card: { background: '#1e1e2e', padding: '2rem', borderRadius: '12px', textAlign: 'center' },
   title: { color: '#a78bfa', marginBottom: '1rem' },
@@ -32,4 +37,5 @@ const styles = {
   preview: { marginTop: '1rem', width: '200px', borderRadius: '8px' },
   loading: { color: '#a78bfa', marginTop: '1rem', fontSize: '1.2rem' }
 };
+
 export default UploadCard;
